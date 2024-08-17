@@ -66,7 +66,7 @@ async def login(request: Request) -> JSONResponse:
     body = await request.json()
     try:
         token_request = dto.TokenRequest(**body)
-    except AttributeError:
+    except TypeError:
         raise HTTPException(
             detail="Invalid login data", status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
         )

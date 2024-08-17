@@ -23,8 +23,9 @@ async def start_server(app: Starlette) -> None:
     await server.serve()
 
 
+application = Starlette(debug=True, routes=setup_routes())
+
 if __name__ == "__main__":
-    application = Starlette(debug=True, routes=setup_routes())
     with asyncio.Runner() as runner:
         try:
             runner.run(start_server(app=application))
