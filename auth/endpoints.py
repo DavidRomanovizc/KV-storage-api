@@ -21,10 +21,8 @@ from starlette.responses import (
 )
 from starlette.routing import Route
 
-from auth import (
-    config,
-    dto,
-)
+import config
+import dto
 
 __all__ = (
     "setup_routes",

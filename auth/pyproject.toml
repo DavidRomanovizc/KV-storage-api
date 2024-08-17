@@ -17,6 +17,7 @@ types-requests = "^2.32.0.20240712"
 black = "^24.8.0"
 pytest = "^8.3.2"
 httpx = "^0.27.0"
+tarantool = "^1.2.0"
 
 
 [tool.black]

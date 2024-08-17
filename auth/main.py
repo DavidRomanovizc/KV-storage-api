@@ -5,7 +5,7 @@ from starlette.applications import (
     Starlette,
 )
 
-from auth.endpoints import (
+from endpoints import (
     setup_routes,
 )
 
@@ -13,8 +13,8 @@ from auth.endpoints import (
 async def start_server(app: Starlette) -> None:
     app_config = uvicorn.Config(
         app=app,
-        host="127.0.0.1",
-        port=8080,
+        host="0.0.0.0",
+        port=8000,
         reload=True,
         use_colors=True,
         log_level="debug",
