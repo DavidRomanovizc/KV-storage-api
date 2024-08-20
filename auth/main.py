@@ -1,9 +1,9 @@
 import asyncio
 
-import uvicorn
 from starlette.applications import (
     Starlette,
 )
+import uvicorn
 
 from endpoints import (
     setup_routes,

@@ -1,7 +1,11 @@
 import pytest
-from starlette.testclient import TestClient
+from starlette.testclient import (
+    TestClient,
+)
 
-from auth.main import application
+from auth.main import (
+    application,
+)
 
 client = TestClient(application)
 
