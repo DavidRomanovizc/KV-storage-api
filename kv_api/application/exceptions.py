@@ -26,7 +26,7 @@ class IntegrityErrorException(DomainException):
 
     @property
     def title(self) -> str:
-        return "Integrity constraint violation."
+        return "Integrity constraint violation"
 
 
 @dataclasses.dataclass(eq=False)
@@ -36,4 +36,4 @@ class ConnectionErrorException(DomainException):
 
     @property
     def title(self) -> str:
-        return "Connection error."
+        return "Connection error"
