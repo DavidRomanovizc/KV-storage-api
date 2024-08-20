@@ -22,4 +22,3 @@ RUN apt-get update && \
 RUN poetry add asynctnt
 
 CMD ["poetry", "run", "python", "main.py"]
-
