@@ -1,24 +1,71 @@
 version: '3.9'
 
 services:
-  tarantool:
-    image: tarantool/tarantool:latest
-    container_name: tarantool
+  shard1:
+    build:
+      context: ./tarantool-cluster
     ports:
       - "3301:3301"
     volumes:
-      - tarantool_data:/var/lib/tarantool
-      - ./tarantool.conf.lua:/etc/tarantool/tarantool.conf.lua
+      - tarantool_storage_1_data:/var/lib/tarantool
     environment:
       TARANTOOL_CONSOLE_PORT: 3301
       TARANTOOL_LISTEN: 3301
-    command: tarantool /etc/tarantool/tarantool.conf.lua
-
+    networks:
+      - tarantool-network
+  shard2:
+    build:
+      context: ./tarantool-cluster
+    ports:
+      - "3302:3302"
+    volumes:
+      - tarantool_storage_2_data:/var/lib/tarantool
+    environment:
+      TARANTOOL_CONSOLE_PORT: 3302
+      TARANTOOL_LISTEN: 3302
+    networks:
+      - tarantool-network
+  router:
+    build:
+      context: ./tarantool-cluster
+      dockerfile: Dockerfile
+    ports:
+      - "3300:3300"
+    depends_on:
+      - shard1
+      - shard2
+    volumes:
+      - tarantool_router_data:/var/lib/tarantool
+    environment:
+      TARANTOOL_CONSOLE_PORT: 3300
+      TARANTOOL_LISTEN: 3300
+    networks:
+      - tarantool-network
+    command: tarantool /opt/tarantool/router.lua
   auth:
     build:
       context: ./auth
     ports:
       - "8000:8000"
+    networks:
+      - server-network
+  kv_api:
+    build:
+      context: ./kv_api
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    networks:
+      - tarantool-network
+      - server-network
 
 volumes:
-  tarantool_data:
+  tarantool_router_data:
+  tarantool_storage_1_data:
+  tarantool_storage_2_data:
+
+networks:
+  tarantool-network:
+    driver: bridge
+  server-network:
+    driver: bridge
